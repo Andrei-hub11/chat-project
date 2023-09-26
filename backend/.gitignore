@@ -1,0 +1,7 @@
+# dependencies
+/node_modules
+
+.env.MONGO_URL
+.env.PORT
+.env.NODE_ENV
+.env.JWT_SECRET
