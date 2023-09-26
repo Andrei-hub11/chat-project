@@ -34,3 +34,9 @@ Agora você pode começar a testar as funcionalidades do aplicativo, criar chats
 * Encerrando o Aplicativo:
 Quando você terminar de testar o aplicativo, você pode parar e remover os contêineres usando o seguinte comando: **docker-compose down**
 
+# Nota Importante:
+
+* Não possui responsividade completa, o que significa que pode não ser ideal para uso em dispositivos móveis.
+
+* Além disso, é importante observar que, embora o MongoDB seja usado para autenticação, as mensagens e notificações não são salvas permanentemente no banco de dados. No entanto, elas serão persistentes durante a execução do servidor, o que significa que, se o servidor não for interrompido, as mensagens e notificações permanecerão acessíveis. Este aplicativo não foi projetado para armazenar mensagens a longo prazo, embora, é claro, não fosse ser dificultoso fazer isso, mas optei por algo mais direto e simples.
+
