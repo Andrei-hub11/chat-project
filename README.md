@@ -1,4 +1,4 @@
-![Captura de Tela (63)](https://github.com/Andrei-hub11/chat-project/assets/83555334/f2207103-cd53-4bd8-8bab-4b84f8dd7306)
+![Screenshot 2023-10-19 at 16-53-33 React App](https://github.com/Andrei-hub11/chat-project/assets/83555334/c9b42496-2d69-4faf-b6ff-90818c883ee9)
 
 [...] Embora este aplicativo não tenha a complexidade de serviços de mensagens instantâneas em larga escala, como o WhatsApp, ele oferece funcionalidades interessantes que ilustram minha capacidade de criar soluções práticas e interativas.
 
