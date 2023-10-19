@@ -3,7 +3,7 @@
 
 #variaveis
 .env
-.env.MONGO_URL
+.env.MONGO_URI
 .env.PORT
 .env.NODE_ENV
 .env.JWT_SECRET
