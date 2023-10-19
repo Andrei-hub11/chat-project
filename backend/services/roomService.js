@@ -8,6 +8,14 @@ const getRooms = () => {
 
 //obtendo dados atualizados de salas do usuario anteriormente armazenadas
 const getRoomByUser = (userName, newSocketId) => {
+  const result =
+    rooms.find((room) => room.members.some((member) => member === userName)) ||
+    null;
+
+  if (!result) {
+    return result;
+  }
+
   rooms.forEach((room) => {
     if (room.members.includes(userName)) {
       if (room.roomADM) {
@@ -20,9 +28,29 @@ const getRoomByUser = (userName, newSocketId) => {
     }
   });
 
-  const roomRecord = rooms?.filter((room) => {
-    return room.members.includes(userName);
-  });
+  const roomRecord = rooms
+    ?.filter((room) => {
+      return room.members.includes(userName);
+    })
+    .map((room) => {
+      // Verifica se o usuário é um administrador da sala
+      const isAdmin = room.roomADM.some((admin) => admin.admName === userName);
+
+      const firstMessage = {
+        _id: uuid.v4(),
+        sender: "Server",
+        text: "Ainda há alguém por aqui? 👀",
+        timestamp: Date.now(),
+      };
+
+      // Limpa as mensagens da sala, exceto a primeira mensagem se o usuário for um administrador
+      const messages = isAdmin ? [room.messages[0]] : [firstMessage];
+
+      return {
+        ...room,
+        messages,
+      };
+    });
 
   return roomRecord;
 };
@@ -65,10 +93,10 @@ const joinRoom = (userName, roomId) => {
     timestamp: Date.now(),
   };
 
-  // Crie um novo objeto de quarto baseado no quarto existente
+  // Cria um novo objeto de quarto baseado no quarto existente
   const newRoom = { ...rooms[roomIndex] };
 
-  // Defina as mensagens do novo quarto apenas com a mensagem de boas-vindas
+  // Define as mensagens do novo quarto apenas com a mensagem de boas-vindas
   newRoom.messages = [welcomeMessage];
 
   rooms[roomIndex].members.push(userName);
@@ -80,6 +108,10 @@ const joinRoom = (userName, roomId) => {
 
 const updateMessages = (userName, roomId, message) => {
   const roomIndex = rooms?.findIndex((room) => room._id === roomId);
+
+  if (roomIndex === -1) {
+    return null;
+  }
 
   const newMessage = {
     _id: uuid.v4(),

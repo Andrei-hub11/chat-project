@@ -138,6 +138,9 @@ const useMainPageLogic = (socket) => {
           userSocketId: response.socketId,
         };
         socket.emit("getRoomData", data, (response) => {
+          if (!Array.isArray(response.data)) {
+            return;
+          }
           setRoomData(response.data);
         });
       }
@@ -149,20 +152,26 @@ const useMainPageLogic = (socket) => {
   }, []);
 
   // Ordena os registros das salas com base no tempo da última mensagem, do mais recente para o mais antigo.
-  const roomData = [...roomRecord].sort((room1, room2) => {
-    const lastMessageTime1 =
-      room1.messages[room1.messages.length - 1]?.timestamp || 0;
-    const lastMessageTime2 =
-      room2.messages[room2.messages.length - 1]?.timestamp || 0;
+  const roomData = [...roomRecord]?.sort((room1, room2) => {
+    const lastMessageTime1 = room1.messages
+      ? room1.messages[room1.messages.length - 1]?.timestamp || 0
+      : 0;
+    const lastMessageTime2 = room2.messages
+      ? room2.messages[room2.messages.length - 1]?.timestamp || 0
+      : 0;
+
     return lastMessageTime2 - lastMessageTime1;
   });
 
   // Filtra as salas com base na pesquisa de nome da sala, insensível a maiúsculas e minúsculas.
   const filteredChat = useMemo(() => {
-    return roomData.filter((chat) =>
-      chat.roomName
-        .toLowerCase()
-        .includes(searchChat.toString().toLocaleLowerCase())
+    return roomData?.filter(
+      (chat) =>
+        chat &&
+        chat.roomName &&
+        chat.roomName
+          .toLowerCase()
+          .includes(searchChat.toString().toLowerCase())
     );
   }, [roomRecord, searchChat]);
 
@@ -245,14 +254,14 @@ const useMainPageLogic = (socket) => {
     setCurrentChatName(name);
   }, []);
 
-  const sendMessage = () => {
+  const sendMessage = useCallback(() => {
     const { currentUser } = user;
 
     if (message) {
       socket.emit("send message", currentUser, selectedRoom, message);
       setMessage("");
     }
-  };
+  }, [user, message, selectedRoom]);
 
   const handleClearingAlerts = useCallback((alertId) => {
     setAlerts((prevRequest) =>

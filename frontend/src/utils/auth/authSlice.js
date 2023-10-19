@@ -114,7 +114,6 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
-        //evitando disparo da mensagem toast na login page
         state.isSuccess = false;
       });
   },

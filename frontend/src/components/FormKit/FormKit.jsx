@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
 import {
   BoxForm,
   BoxCloseMenu,
@@ -8,14 +11,17 @@ import {
   FormControl,
   Form,
   FormBtnBox,
-  InputForm,
+  FormInput,
   LabelForm,
-  ContactFormMsg,
+  FormMsg,
   BtnForm,
-} from "./FormKitstyle";
-import * as yup from "yup";
+  StyledLoader,
+  LoaderContainer,
+  VisiblePassword,
+} from "./FormKitStyle";
 import CloseMenuIcon from "../../images/x.svg";
-import { useFormik } from "formik";
+import VisibilityOffIcon from "../../images/eye.svg";
+import VisibilityIcon from "../../images/eye-off.svg";
 
 const FormKit = ({ otherData, fields, handleFormAction }) => {
   const {
@@ -27,7 +33,10 @@ const FormKit = ({ otherData, fields, handleFormAction }) => {
     alternativeText,
     toggleBtn,
     formSize,
+    isLoading,
   } = otherData;
+
+  const [visiblePassword, setVisiblePassword] = useState(true);
 
   // Cria um objeto de initialValues a partir de um array de campos (fields).
   const initialValues = Object.fromEntries(
@@ -65,6 +74,20 @@ const FormKit = ({ otherData, fields, handleFormAction }) => {
     onSubmit,
   });
 
+  const rotation = {
+    initial: {
+      rotate: 0,
+    },
+    animated: {
+      rotate: 360,
+      transition: {
+        duration: 0.5,
+        loop: Infinity,
+        ease: "linear",
+      },
+    },
+  };
+
   return (
     <BoxForm
       size={formSize ? formSize : ""}
@@ -90,8 +113,8 @@ const FormKit = ({ otherData, fields, handleFormAction }) => {
         {fields.map((field) => {
           return (
             <FormControl key={field.name}>
-              <InputForm
-                type={field.type || "text"}
+              <FormInput
+                type={visiblePassword ? field.type : "text"}
                 value={values[field.name] || ""}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -100,15 +123,23 @@ const FormKit = ({ otherData, fields, handleFormAction }) => {
                 isError={
                   errors[field.name] && touched[field.name] ? true : false
                 }
+                autoComplete="off"
+                aria-autocomplete="none"
               />
               <LabelForm htmlFor="name">{field.label}</LabelForm>
-              <ContactFormMsg
+              <FormMsg
                 isError={
                   errors[field.name] && touched[field.name] ? true : false
                 }
               >
                 {errors[field.name]}
-              </ContactFormMsg>
+              </FormMsg>
+              {field.type === "password" ? (
+                <VisiblePassword
+                  src={visiblePassword ? VisibilityOffIcon : VisibilityIcon}
+                  onClick={() => setVisiblePassword(!visiblePassword)}
+                />
+              ) : null}
             </FormControl>
           );
         })}
@@ -126,16 +157,18 @@ const FormKit = ({ otherData, fields, handleFormAction }) => {
         </p>
 
         {menu === "createRoom" || menu === "joinRoom" ? (
-          <FormBtnBox>
+          <FormBtnBox hasloading={false.toString()}>
             <BtnForm
               primary={true.toString()}
+              hasloading={false.toString()}
               disabled={isSubmitting}
               type="submit"
             >
-              Salvar
+              Enviar
             </BtnForm>
             <BtnForm
               onClick={() => closeMenu(menu)}
+              hasloading={false.toString()}
               primary={false.toString()}
               type="button"
             >
@@ -143,13 +176,24 @@ const FormKit = ({ otherData, fields, handleFormAction }) => {
             </BtnForm>
           </FormBtnBox>
         ) : (
-          <FormBtnBox>
+          <FormBtnBox hasloading={true.toString()}>
             <BtnForm
               primary={true.toString()}
+              hasloading={true.toString()}
               disabled={isSubmitting}
               type="submit"
             >
-              Enviar
+              {!isLoading ? (
+                "Enviar"
+              ) : (
+                <LoaderContainer
+                  variants={rotation}
+                  initial="initial"
+                  animate="animated"
+                >
+                  <StyledLoader />
+                </LoaderContainer>
+              )}
             </BtnForm>
           </FormBtnBox>
         )}

@@ -1,28 +1,14 @@
 const dotenv = require("dotenv");
 const uuid = require("uuid");
-const express = require("express");
-const cors = require("cors");
 const http = require("http");
 
-const app = express();
+const app = require("./app");
 const roomService = require("./services/roomService");
 const socketService = require("./services/socketService");
-const { errorHandler } = require("./middleware/errorMiddleware.js");
-const connectDB = require("./config/db.js");
 
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
-
-connectDB();
-
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-app.use("/api/users", require("./routes/userRoutes.js"));
-
-app.use(errorHandler);
 
 const server = http.createServer(app); // Cria o servidor HTTP usando o aplicativo Express.js
 
@@ -35,7 +21,7 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", (socket) => {
-  //armazena/atualiza o socket id do usuário, e o devolve ao front, para manipulação adequada
+  //armazena/atualiza o socket id do usuário e o devolve ao front, para manipulação adequada
   socket.on("userOnline", ({ userId }, callback) => {
     const userSockets = socketService.getUserSockets();
     const existingUser = userSockets?.find((user) => user.userId === userId);
@@ -54,10 +40,15 @@ io.on("connection", (socket) => {
   em que o usuário é adm de uma sala */
   socket.on("getRoomData", (data, callback) => {
     const { userName, userSocketId } = data;
+
     if (!userName) {
       callback({ error: "O nome do usuário é necesssário" });
     }
     const payload = roomService.getRoomByUser(userName, userSocketId);
+
+    if (!payload) {
+      return;
+    }
 
     //devolvendo usuários à sala, em sua nova conexão
     for (const room of payload) {
@@ -90,8 +81,9 @@ io.on("connection", (socket) => {
   //pedindo para entrar em uma sala com seu id
   socket.on("requestToJoin", (roomId, userName, replyId, callback) => {
     const rooms = roomService.getRooms();
-    const roomRecord = rooms?.find((room) => room._id === roomId);
 
+    const roomRecord = rooms?.find((room) => room._id === roomId);
+    console.log(roomId);
     if (!roomRecord) {
       callback({ error: `A sala com o id ${roomId} não foi encontrada` });
     }

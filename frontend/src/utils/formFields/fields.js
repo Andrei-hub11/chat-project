@@ -51,6 +51,7 @@ export const fieldsRegister = [
         "A senha deve conter pelo menos 2 caracteres especiais"
       )
       .required("A senha é obrigatória"),
+    type: "password",
   },
 ];
 
@@ -78,5 +79,6 @@ export const fieldsLogin = [
         "A senha deve conter pelo menos 2 caracteres especiais"
       )
       .required("A senha é obrigatória"),
+    type: "password",
   },
 ];

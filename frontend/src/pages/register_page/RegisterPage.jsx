@@ -12,7 +12,9 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isError, isSuccess, message } = useSelector((state) => state.auth);
+  const { isError, isSuccess, isLoading, message } = useSelector(
+    (state) => state.auth
+  );
 
   const { closeMenu, isMenuOpen } = useMenuToggleState();
 
@@ -50,6 +52,7 @@ export const RegisterPage = () => {
       alternativeText: "Já possui uma conta?",
       toggleBtn: "Fazer login",
       formSize: "38rem",
+      isLoading: isLoading,
     },
     handleFormAction: handleRegister,
     fields: fieldsRegister,

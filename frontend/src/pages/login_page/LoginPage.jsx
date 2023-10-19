@@ -12,7 +12,9 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isError, isSuccess, message } = useSelector((state) => state.auth);
+  const { isError, isSuccess, isLoading, message } = useSelector(
+    (state) => state.auth
+  );
 
   const { closeMenu, isMenuOpen } = useMenuToggleState();
 
@@ -50,6 +52,7 @@ export const LoginPage = () => {
       alternativeText: "Ainda não possui uma conta?",
       toggleBtn: "Criar uma",
       formSize: "32rem",
+      isLoading: isLoading,
     },
     handleFormAction: handleLogin,
     fields: fieldsLogin,

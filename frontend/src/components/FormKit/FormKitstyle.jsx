@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
+import { ReactComponent as Loader } from "../../utils/assets/loader.svg";
+
 export const BoxForm = styled(motion.div)`
   /* display: ${(props) => (props.formOpen ? "block" : "none")}; */
   position: absolute;
@@ -65,7 +67,7 @@ export const FormControl = styled.div`
   flex-direction: column;
 `;
 
-export const InputForm = styled.input`
+export const FormInput = styled.input`
   position: relative;
   font-size: 1.5rem;
   font-weight: 400;
@@ -89,7 +91,18 @@ export const InputForm = styled.input`
   }
 `;
 
-export const ContactFormMsg = styled.small`
+export const VisiblePassword = styled.img`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  filter: invert(11%) sepia(0%) saturate(3996%) hue-rotate(147deg)
+    brightness(86%) contrast(75%);
+`;
+
+export const FormMsg = styled.small`
   position: absolute;
   font-size: 1rem;
   font-weight: 700;
@@ -99,7 +112,7 @@ export const ContactFormMsg = styled.small`
 
 export const LabelForm = styled.label`
   position: absolute;
-  top: 0.7rem;
+  top: 0.5rem;
   left: 1rem;
   font-size: 1rem;
   display: block;
@@ -111,7 +124,7 @@ export const LabelForm = styled.label`
   text-align: center;
   pointer-events: none;
 
-  ${InputForm}:placeholder-shown + & {
+  ${FormInput}:placeholder-shown + & {
     font-size: 1.4rem;
     cursor: text;
     top: 1.9rem;
@@ -120,8 +133,8 @@ export const LabelForm = styled.label`
     font-weight: 400;
   }
 
-  ${InputForm}:focus + & {
-    top: 0.7rem;
+  ${FormInput}:focus + & {
+    top: 0.5rem;
     left: 1rem;
     font-size: 1rem;
     font-weight: 400;
@@ -133,7 +146,8 @@ export const FormBtnBox = styled.div`
   position: relative;
   top: 3rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: ${(props) =>
+    props.hasloading === "true" ? "center" : "flex-end"};
   width: 100%;
   column-gap: 1rem;
 `;
@@ -142,10 +156,15 @@ export const BtnForm = styled(motion.button)`
   margin-right: 2rem;
   font-size: 1.5rem;
   color: #fff;
-  padding: 0.7rem 2.5rem;
+  padding: ${(props) =>
+    props.hasloading === "true" ? "0.7rem 4rem" : "0.7rem 2.5rem"};
   border-radius: 3rem;
   border: none;
   background: ${(props) => (props.primary === "true" ? "#3366ff" : "#ff0000")};
   box-shadow: rgba(100, 100, 111, 0.6) 0px 7px 29px 0px;
   cursor: pointer;
 `;
+
+export const LoaderContainer = styled(motion.div)``;
+
+export const StyledLoader = styled(Loader)``;

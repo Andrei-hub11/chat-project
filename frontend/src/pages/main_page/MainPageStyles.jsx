@@ -70,6 +70,7 @@ export const InputMessageBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid red;
   gap: 1rem;
 `;
 
@@ -98,6 +99,7 @@ export const ChatInput = styled.input`
   border-radius: 2rem;
   height: 4rem;
   width: 100%;
+  padding-left: 1rem;
   box-shadow: rgba(100, 100, 111, 0.6) 0px 7px 29px 0px;
 
   &::placeholder {
