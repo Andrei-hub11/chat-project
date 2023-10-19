@@ -4,7 +4,7 @@
 
 # Funcionalidades Destacadas:
 * Registro e Autenticação de Usuários: O aplicativo permite que os usuários se registrem com um nome, e-mail e senha, e autentiquem-se para acessar o chat.
-* Criação de Salas de Chat: Os usuários podem criar suas próprias salas de chat e personalizar o ambiente de conversa.
+* Criação de Salas de Chat: Os usuários podem criar suas próprias salas de chat.
 * Convidar Amigos para Salas: Há uma funcionalidade de convite, que permite que os usuários convidem amigos para participar de uma sala usando o ID da sala.
 * Aprovação de Solicitações: Os administradores da sala podem aprovar ou recusar solicitações de entrada, fornecendo controle sobre quem participa da conversa.
 * Interface de Usuário Amigável: A interface de usuário foi desenvolvida com React, Styled-Components e Framer Motion para criar uma experiência agradável para o usuário.
@@ -23,7 +23,7 @@ Execute o seguinte comando para iniciar os contêineres definidos no arquivo doc
 * Registrando um Usuário:
  Abra seu navegador e acesse **http://localhost:3000/register**. Você será direcionado para a página de registro do aplicativo.
  Preencha o formulário de registro com as informações necessárias, como nome, e-mail e senha. Clique no botão de registro para criar uma conta.
-Após o registro bem-sucedido, você será direcionado para a página de home.
+Após o registro bem-sucedido, você será direcionado para a página home.
 
 * Login do Usuário:
   Se tiver feito um registro e feito logout no home, pode usar a login page (**http://localhost:3000/login**) com as credenciais que você acabou de criar (e-mail e senha).
