@@ -30,7 +30,7 @@ export const fieldsRegister = [
   },
   {
     name: "email",
-    label: "Adcione um email",
+    label: "Adicione um email",
     validation: yup
       .string()
       .email("Digite um email válido")
@@ -58,7 +58,7 @@ export const fieldsRegister = [
 export const fieldsLogin = [
   {
     name: "email",
-    label: "Adcione um email",
+    label: "Adicione um email",
     validation: yup
       .string()
       .email("Digite um email válido")
